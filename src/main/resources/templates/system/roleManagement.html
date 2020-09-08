@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" th:href="@{/static/js/layui/css/layui.css}">
+    <script type="text/javascript" th:src="@{/static/js/jquery-3.5.1.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/pub.js}"></script>
+    <style>
+        .layui-table th {
+            /*表头内容居中显示*/
+            text-align: center;
+        }
+
+        .layui-table {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+
+<form class="layui-form">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">角色名</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="roleName" placeholder="请输入角色名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">角色标识</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="roleKey" autocomplete="off" class="layui-input" placeholder="请输入角色标识">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">角色状态</label>
+            <div class="layui-input-inline">
+                <select name="status">
+                    <option value="">全部</option>
+                    <option value="0">启用</option>
+                    <option value="1">停用</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">
+                <i class="layui-icon layui-icon-search"></i>搜索
+            </button>
+        </div>
+    </div>
+</form>
+
+<table class="layui-hide" id="test" lay-filter="test" style="height: 100%;text-align: center;"></table>
+
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+    </div>
+</script>
+
+<script id="switchTpl" type="text/html">
+    {{#  if(d.roleId ==1 ){  }}
+    <input type="checkbox" name="status" value={{d.status}} data-id={{d.roleId}}  lay-skin="switch" disabled lay-text="启用|停用"
+           lay-filter="status" {{ d.status=='0' ? 'checked' : '' }} />
+    {{#  } else { }}
+    <input type="checkbox" name="status" value={{d.status}} data-id={{d.roleId}} lay-skin="switch" lay-text="启用|停用" lay-filter="status" {{
+           d.status=='0' ? 'checked' : '' }} />
+    {{#  } }}
+</script>
+
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    {{#  if(d.roleId ==1 ){  }}
+    <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="del" >删除</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{#  } }}
+</script>
+
+<form class="layui-form" action="" style="display: none;margin: 10px;" id="addEdit" lay-filter="editForm">
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="roleName" required lay-verify="required" placeholder="请输入角色名" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标识</label>
+        <div class="layui-input-inline">
+            <input type="text" name="roleKey" required lay-verify="required" placeholder="请输入标识" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <input type="checkbox" name="status"  value="0" lay-skin="switch" lay-text="启用|停用" lay-filter="status" />
+    </div>
+    <div class="layui-form-item">
+        <div id="roleTree"></div>
+    </div>
+
+</form>
+
+<script type="text/javascript" th:src="@{/static/js/layui/layui.js}"></script>
+<script>
+    layui.use(['table', 'form','tree'], function () {
+        var table = layui.table,
+            form = layui.form,
+            tree = layui.tree,
+            $ = layui.$;
+        var tableData = new Array();
+        table.render({
+            elem: '#test'
+            , url: '/system/role/query'
+            , page: true
+            , toolbar: '#toolbar'
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [{type: 'checkbox', fixed: 'left'}
+                    , {field: 'roleId', width: '8%', title: 'ID', sort: true, fixed: 'left', unresize: true}
+                    , {field: 'roleName', width: '15%', title: '角色名'}
+                    , {field: 'roleKey', width: '15%', title: '标识'}
+                    , {field: 'status', width: '15%', title: '状态', templet: '#switchTpl'}
+                    , {field: 'createTime', title: '创建时间', width: '27%'}
+                    , {fixed: 'right', title: '操作', width: '15%', minWidth: 100, toolbar: '#bar'}//minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ]
+            ],
+            request: {
+                pageName: 'pageNum'
+                , limitName: 'pageSize'
+            },
+            parseData: function (res) {
+                if (res.status==400){
+                    return {
+                        "code":400,
+                        "msg": res.msg
+                    }
+                }
+                return {
+                    "code":res.code,
+                    "msg": res.msg,
+                    "count": res.data.total,
+                    "data": res.data.list
+                }
+            },
+            response: {
+                statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+            },
+            done: function(res, curr, count){
+                if (res.data!=null){
+                    tableData=res.data
+                }
+            }
+        });
+        form.on('submit(formDemo)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+
+        form.on('switch(status)', function (obj) {
+            var roleId = obj.elem.attributes['data-id'].nodeValue
+            var content = ""
+            var status = obj.elem.checked == true ? 0 : 1;
+            var sta = obj.elem.checked;
+            if (sta) {
+                content = "确定要启用吗？"
+            } else {
+                content = "确定要停用吗？"
+            }
+            parent.layer.open({
+                content: content
+                , shade: 0
+                , icon: 7
+                , btn: ['确定', '取消',]
+                , yes: function (index, layero) {
+                    $.ajax({
+                        type: 'put',
+                        url: '/system/role/update',
+                        data: {'roleId':roleId, 'status': status},
+                        success: function (data) {
+                            if (data.status == '200') {
+                                parent.layer.msg(data.msg);
+                                obj.elem.checked = sta;
+                                var elem = $(obj.elem);
+                                var trElem = elem.parents("tr");
+                                //修改table字段值
+                                tableData[trElem.data('index')][elem.attr('name')]=status;
+                            } else {
+                                parent.layer.msg(data.msg)
+                                obj.elem.checked = sta;
+                            }
+                        }
+                    })
+                    parent.layer.close(index);
+                }
+                , btn2: function (index, layero) {
+                    obj.elem.checked = !sta;
+                    form.render();
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                , cancel: function () {
+                    //右上角关闭回调
+                    obj.elem.checked = !sta;
+                    form.render();
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        });
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                parent.layer.open({
+                    //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                    type: 1,
+                    shadeClose : true,
+                    offset: 'auto',
+                    area: ['420px', '550px'],
+                    title: "修改角色信息",
+                    content: $("#addEdit"),//引用的弹出层的页面层的方式加载修改界面表单
+                 });
+                loadForm();
+            }
+            function loadForm() {
+                $.ajax({
+                    url:'/system/menu/query',
+                    type:'get',
+                    success:function (data) {
+
+                    }
+                })
+                form.val('editForm', {
+                    "roleName": data.roleName
+                    ,"roleKey": data.roleKey
+                    ,"status": data.status==0 ? 'checked':''
+                });
+            }
+        });
+
+
+
+    });
+</script>
+</body>
+</html>

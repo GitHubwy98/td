@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" th:src="@{/static/js/jquery-3.5.1.js}"></script>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: 'get',
+            url: '/toDruidLogin',
+            data: {},
+            success: function (data) {
+                if (data == "success") {
+                    location.href = "/druid";
+                }
+            }
+        });
+    });
+</script>
+</html>

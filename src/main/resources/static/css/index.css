@@ -1,0 +1,15 @@
+.layui-logo{
+    background-color:#23262E;
+    float: left;
+    border-bottom: 1px solid #23262E;
+}
+.layui-header{
+    background-color: white!important;
+    border-bottom: 1px solid #f6f6f6;
+}
+.layui-layout-left > li > a{
+    color: black!important;
+}
+.layui-show{
+    height: 100%;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" th:href="@{/static/js/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/static/css/login.css}">
+    <script type="text/javascript" th:src="@{/static/js/jquery-3.5.1.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/jsencrypt.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/pub.js}"></script>
+</head>
+<body>
+<div style="width: 100%; height: 100%;">
+    <div class="stars" id="canvaszz" style="height: 100%;width: 100%;position:absolute; z-index: -1;">
+        <canvas id="canvas" height="100%" width="100%"></canvas>
+    </div>
+    <form class="layui-form"  method="post">
+        <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login"
+             style="z-index: 5;position: absolute;">
+            <div class="layadmin-user-login-main" style="background-color: #2E2D3C;">
+                <div class="layadmin-user-login-box layadmin-user-login-header" style="padding-bottom: 10px">
+                    <span style="font-size: 20px;color: white;">用户登录</span>
+                </div>
+                <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+                    <div class="layui-form-item">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-username"
+                               for="LAY-user-login-username"></label>
+                        <input type="text" name="userName" id="LAY-user-login-username" lay-verify="required"
+                               placeholder="用户名" class="layui-input">
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-password"
+                               for="LAY-user-login-password"></label>
+                        <input type="password" name="password" id="LAY-user-login-password" lay-verify="required"
+                               placeholder="密码" class="layui-input" th:autocomplete="password">
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-row">
+                            <div class="layui-col-xs7">
+                                <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"
+                                       for="LAY-user-login-vercode"></label>
+                                <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required"
+                                       placeholder="图形验证码" class="layui-input">
+                            </div>
+                            <div class="layui-col-xs5">
+                                <div style="margin-left: 10px;">
+                                    	<img src="/getVerificationCode" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode" name="verificationCode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-login-submit">登 录
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" th:src="@{/static/js/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/login.js}"></script>
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        var $ = layui.$;
+        var layer = layui.layer;
+        //监听提交
+        form.on('submit(LAY-user-login-submit)', function(data){
+            data.field.password=encryptionToDecrypt(data.field.password)
+            $.ajax({
+                url: '/login',
+                type: "post",
+                data: data.field,
+                success: function (data) {
+                    if (data.status == 200) {
+                        window.location.href="/index"
+                    }else {
+                        layer.msg(data.msg,{offset: '100px'});
+                    }
+                }
+            });
+            return false;
+        });
+        $("#LAY-user-get-vercode").on("click",function () {
+            this.src="/getVerificationCode?"+new Date()*1
+        });
+    });
+</script>
+</body>
+</html>

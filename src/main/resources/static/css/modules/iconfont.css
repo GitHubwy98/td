@@ -1,0 +1,29 @@
+@font-face {font-family: "layui-icon";
+  src: url('iconfont.eot?t=1598687928105'); /* IE9 */
+  src: url('iconfont.eot?t=1598687928105#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAScAAsAAAAACgQAAARNAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDOAqGWIU/ATYCJAMYCw4ABCAFhQUHbRuSCBGVnK3I/gBVYCwdR4RClG3lYUMCp9XrZwDfKcYfZJHvDlyAgIADeADx8LSWvr8zu3udEMg0qgSsUgmkTsiQrGNVVWWQZB0rNuJ8vrnsT2B5kiLJClnOFIknaskWADzhAfmeundKJicAdxvAPCB9Flh+e8BtESuiNBtkCJVVM6XX/9tvPy2CsCkpQNfnWwkj+zH5wLncSPg5vSnLwu3/P/bqf78xQer+Fgi1yLSIXLRIHi+QqKYRNg53BjQx3yG7uvXCoEBcTaCYskYcySqoQEeGdwpEt7e7FR2PU06oDR2hiTgyI+5A1qncwidwW71+/MemsEClTsDXunAzswMHfqEjiRscDYmDV+fH7TgS1iAT3cjgTclKr5GUT3G2Cx2yXsWvbe3sSG/E2NoO9VD+yeso+lEJSVYTDbCxHwhnDPWkqZhqKlVgF1/TDhCT+LVTTObXEQWEcN++H5PEKMRug7Am2MqTb8vDGA2QIxy/yhwkWQMkhVolqZl6LyEsXtj6PVck6de1XlndJzR41kjo697VQDxYsT9owCItSFzHCBibPKMa/ua8j+cC0uKlfYA4ZFVyeAIqkqup95rU+lWHvnXmOdnA5qX3uo1vnnrPt8nDK8/FYNRG7V2kmlbi4syardh6K8BiYOeqN7h7vWH9QInxcc8Fz9KlX1UrRCVKQ6ahyv01DhIvDyLcawCDSR0nn59/Xkqlim3Hf/X69N+IXKPFTmxXhmTGjzGn/SU/Z8jle+rCzshDw87bU232gwLBsG59zqr9Hi3PLY8NLv0fYfvzAX7LBktkmXWD9XHYKo3+qBlxCQZHFMaSMQyevStv7e//c/4RX23U6M1A2MANTZexlyn+plRUIww07U23e0bX+M4vLGzQZ3RDruGmPxVXc/NG2AY/zKX8pNoAZxyvmoopst0d44Az1qJi6BmTQ/W6S1gEm/bFp1v4W/rC/QNyYWCghFPIwIDuADe+9TiRU1LCfl4+wH4zi2Ha/wOPGGZB75SInulA9HpR6LIzXKBvefx7PzOGe7LYM/iSzz+go6ck4bRRZVadX6qMk/JXg11Nfg/PthRoXNdkt9UqCs6sPKP+qjJPZE4Sikd1g0prKSTFMpQJG6DWZxc0iqNQrHY+vs+YV1WRl2CVNwPCuHeoDPoIybhPlAn/UJscgcb4gqGYidVn7LNsejnMaAm6YL9A4GQp0RbpdK0XHSz/S92gp2OL7wNW4gFZBTALtqtNSO6EKXJV+6hHbydCQJwlcCz1ehjHGeSchejIyhfJD+s1Rb3QysmSUsdhDFkEcgHbCxBwZFIkikVHl/VF2rpMKL+BPPo2MyeOGBR8gJhSwOrB1somEzoZ04zDdu05yiPPjhAEEJZJgGNnEZbHMiCP3iyEHGLFL5DMHazJdJTVuGrWnKzxRVDgg5qoIkWOOppoDS/DxoavLdtKSduYtn11S0ElHWvS9iqxC+xLJQAAAA==') format('woff2'),
+  url('iconfont.woff?t=1598687928105') format('woff'),
+  url('iconfont.ttf?t=1598687928105') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1598687928105#layui-icon') format('svg'); /* iOS 4.1- */
+}
+
+.layui-icon_huabanfuben:before {
+  content: "\e636";
+}
+
+.layui-icon-test:before {
+  content: "\e635";
+}
+
+.layui-icon-test1:before {
+  content: "\e638";
+}
+
+.layui-iconicon-test2:before {
+  content: "\e639";
+}
+
+.layui-icon-test3:before {
+  content: "\e644";
+}
+

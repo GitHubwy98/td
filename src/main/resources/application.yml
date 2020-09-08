@@ -1,0 +1,117 @@
+server:
+  port: 9999
+  servlet:
+    context-path: /
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  mvc:
+    static-path-pattern: /static/**
+  jta:
+    atomikos:
+      datasource:
+        max-pool-size: 5
+        borrow-connection-timeout: 20000
+  datasource:
+    druid:
+      primary:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://localhost:3306/td?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
+        username: root
+        password: AMQCbz9yPbCDS+XowKrQ0ntkPKYEIY0i+PQNKQSBzyCpzDiVsyLJ6vBYuo2mWE/Ldzwhbk+EH5TxXkzZ2x6TkQ==
+        publickey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIsbXuqECYne+RL84phGKNdP5RHnPdqkR+HILEz/CcOiuzAXuIjW3UXhTfQXQPMaHATLaJ6KifhGLhBI+FpRRCcCAwEAAQ==
+        # 配置 connection-properties，启用加密，配置公钥。
+        connection-properties: config.decrypt=true;publickey=${spring.datasource.druid.primary.publickey};password=${spring.datasource.druid.primary.password}
+        # 公钥
+        pool-prepared-statements: true
+        # 每个连接大小的最大池
+        max-pool-prepared-statement-per-connection-size: 10
+        # 初始化时建立物理连接的个数。初始化发生在显示调用 init 方法，或者第一次 getConnection 时
+        initial-size: 5
+        # 最小连接池数量
+        min-idle: 5
+        # 最大连接池数量
+        max-active: 20
+        # 获取连接时最大等待时间，单位毫秒。配置了 maxWait 之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置 useUnfairLock 属性为 true 使用非公平锁。
+        max-wait: 60000
+        # Destroy 线程会检测连接的间隔时间，如果连接空闲时间大于等于 minEvictableIdleTimeMillis 则关闭物理连接。
+        time-between-eviction-runs-millis: 60000
+        # 连接保持空闲而不被驱逐的最小时间
+        min-evictable-idle-time-millis: 300000
+        # 用来检测连接是否有效的 sql 因数据库方言而异, 例如 oracle 应该写成 SELECT 1 FROM DUAL
+        validation-query: SELECT 1
+        # 建议配置为 true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于 timeBetweenEvictionRunsMillis，执行 validationQuery 检测连接是否有效。
+        test-while-idle: true
+        # 申请连接时执行 validationQuery 检测连接是否有效，做了这个配置会降低性能。
+        test-on-borrow: false
+        # 归还连接时执行 validationQuery 检测连接是否有效，做了这个配置会降低性能。
+        test-on-return: false
+        # 是否自动回收超时连接
+        remove-abandoned: true
+        # 超时时间 (以秒数为单位)
+        remove-abandoned-timeout: 18000
+        filter:
+          stat:
+            log-slow-sql: true
+            slow-sql-millis: 20000
+          config:
+            enabled: true
+    secondary:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      type: com.alibaba.druid.pool.xa.DruidXADataSource
+      jdbc-url: jdbc:mysql://localhost:3306/td?characterEncoding=utf8&useSSL=false&serverTimezone=GMT
+      username: root
+      password: AMQCbz9yPbCDS+XowKrQ0ntkPKYEIY0i+PQNKQSBzyCpzDiVsyLJ6vBYuo2mWE/Ldzwhbk+EH5TxXkzZ2x6TkQ==
+      publickey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIsbXuqECYne+RL84phGKNdP5RHnPdqkR+HILEz/CcOiuzAXuIjW3UXhTfQXQPMaHATLaJ6KifhGLhBI+FpRRCcCAwEAAQ==
+      # 配置 connection-properties，启用加密，配置公钥。
+      connection-properties: config.decrypt=true;publickey=${spring.datasource.druid.secondary.publickey};password=${spring.datasource.druid.secondary.password}
+      # 公钥
+      pool-prepared-statements: true
+      # 每个连接大小的最大池
+      max-pool-prepared-statement-per-connection-size: 10
+      # 初始化时建立物理连接的个数。初始化发生在显示调用 init 方法，或者第一次 getConnection 时
+      initial-size: 5
+      # 最小连接池数量
+      min-idle: 5
+      # 最大连接池数量
+      max-active: 20
+      # 获取连接时最大等待时间，单位毫秒。配置了 maxWait 之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置 useUnfairLock 属性为 true 使用非公平锁。
+      max-wait: 60000
+      # Destroy 线程会检测连接的间隔时间，如果连接空闲时间大于等于 minEvictableIdleTimeMillis 则关闭物理连接。
+      time-between-eviction-runs-millis: 60000
+      # 连接保持空闲而不被驱逐的最小时间
+      min-evictable-idle-time-millis: 300000
+      # 用来检测连接是否有效的 sql 因数据库方言而异, 例如 oracle 应该写成 SELECT 1 FROM DUAL
+      validation-query: SELECT 1
+      # 建议配置为 true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于 timeBetweenEvictionRunsMillis，执行 validationQuery 检测连接是否有效。
+      test-while-idle: true
+      # 申请连接时执行 validationQuery 检测连接是否有效，做了这个配置会降低性能。
+      test-on-borrow: false
+      # 归还连接时执行 validationQuery 检测连接是否有效，做了这个配置会降低性能。
+      test-on-return: false
+      # 是否自动回收超时连接
+      remove-abandoned: true
+      # 超时时间 (以秒数为单位)
+      remove-abandoned-timeout: 18000
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 20000
+        config:
+          enabled: true
+  redis:
+    #Redis数据库索引
+    database: 1
+    password: 123456
+    port: 6379
+    timeout: 0
+logging:
+  level:
+    com.wudi.td.dao.primary: debug
+RSA:
+  privateKey: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJCSRovEs+LTWkbG5mYfBg0a6EKwx1my/PjdMnxVC/W9sEEh+pXqP7cuB/Sm4nqiAdY0feKN5gHJ77VJD3t9XWoBeyHOGZwTFL+qwfCk2oCOVv8sIM9VcKwA87SOOu3ytcAx2AVfxMDc5qWNxM5nd6zB91XZC+SYVhFMh9yhyUZFAgMBAAECgYAetzVN1MjzVDxF9VRWNhkvB5x5Lt3r7N9acISdbeRQnbCo5fM7jr1iyeDe1eYgb/M784Mbc1J+5syLE666afRCk5Wm13Apu+Ac2rP/44BaZhmjxtjNJDAzV0XCH0lj7hlA+ur/HA/lAe0Lb7nHLbW3MtYl0WeK0N9A1xybPwLEsQJBAMt6sgy5NfYHmyhWPGNaJiLIVQZpsYKbp1p5GjvsG/eGcNwnnu4Dfjri/2q/Txo5e34Erk3seJUX7zos7Mr1mV8CQQC14x9HwZmXnK7v+5QNuSqSm3//rvQbZLph6uA9psp9Qkz6bHvJ8z/OBzo8hKvzgVHVnCgtQg5izzM8sFlz4C7bAkBaehszpyNEW8t1GytM7ifo7XVJHbQtpDK8+v5cSLeCz8fdTMzRfsIhQxBZkemFeqvbtA8hXRWdDgB0uMct1Bk3AkEAi+3+m6K6uiQlhaTjgydINGADOj5ruENnDHu5JlUSBQmj1SjulzBXjvaKfBKJgx2jSpYHZsIh9Sx4u6DkQLxg7wJAB7SwqTivMIv+zXRFOYtqr/Ba6lMu0q6iTThgv7Hx0OLXPaO2aAKsGHV3bb0Yg52YTLX8zob13D3ntBFocIFXkA==
